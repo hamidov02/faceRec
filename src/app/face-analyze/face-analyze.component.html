@@ -1,0 +1,101 @@
+
+<main role="main">
+    <section class="jumbotron text-center">
+        <div class="container">
+<br>
+            <h1 class="jumbotron-heading">Face Recognition Application</h1>
+            <form #f="ngForm">
+                <br>
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Copy image url here.." #imageURL>
+                </div>
+                <button type="submit" (click)="getPersonDetails(imageURL.value)"
+                    class="btn btn-success my-2">Analyze</button>
+            </form>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div>
+                        <div *ngIf="faceDetails">
+                            <table class="table table-bordered text-sm-center">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Character</th>
+                                        <th scope="col">Estimation</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th>Age</th>
+                                        <td>{{faceDetails.faceAttributes?.age}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Gender</th>
+                                        <td>{{faceDetails.faceAttributes?.gender}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Smile</th>
+                                        <td>{{faceDetails.faceAttributes?.smile | percent}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Glasses</th>
+                                        <td>{{faceDetails.faceAttributes?.glasses}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Moustache</th>
+                                        <td>{{faceDetails.faceAttributes?.facialHair?.moustache | percent}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Beard</th>
+                                        <td>{{faceDetails.faceAttributes?.facialHair?.beard | percent}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Happiness</th>
+                                        <td>{{faceDetails.faceAttributes?.emotion?.happiness | percent}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Sadness</th>
+                                        <td>{{faceDetails.faceAttributes?.emotion?.sadness | percent}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                            aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Full reponse from FaceAPI</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Modal -->
+
+                </div>
+                <div class="col-md-6">
+                    <div class="card" *ngIf="imageURL.value">
+                        <div class="mainImgContainer" *ngIf="imageURL">
+                            <img #mainImg class="card-img main-img" [src]="imageURL.value" (load)="imageLoaded($event)" />
+                            <div class="face-box-yellow" *ngIf="faceDetails"
+                                [style.top.px]="faceDetails.faceRectangle?.top * multiplier"
+                                [style.left.px]="faceDetails.faceRectangle?.left * multiplier"
+                                [style.height.px]="faceDetails.faceRectangle?.height * multiplier"
+                                [style.width.px]="faceDetails.faceRectangle?.width * multiplier"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
